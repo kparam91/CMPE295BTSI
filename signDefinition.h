@@ -63,7 +63,8 @@ using namespace std;
     "three_1",
     "three_2",
     "three_3"
-};			
+};
+		
 class sign
 {
 	public:
@@ -97,5 +98,31 @@ ostream & operator << (ostream &out, sign &s)
 	out<<"NAME: "<<s.name<<" COLOR: "<<colorNames[s.col]<<" SHAPE: "<<signShape[s.sh];
 	out<<" LOCATION: "<<signposition[s.location]<<endl;
 	return out;
+}
+
+sign stop("STOP",RED_WHITE, HEXAGON, two_3);		
+sign disabled("DISABLED_PARKING",BLUE_WHITE, SQUARE,two_2);	
+sign railCrossing("RAIL_CROSSING",YELLOW_BLACK, CIRCLE, two_3);
+sign bikeLane("BIKE_LANE",WHITE_BLACK, RECTANGLE_W, two_3);	
+sign oneWay("ONE_WAY", BLACK_WHITE, RECTANGLE_W, two_3);	
+sign leftUTurn("LEFT_U_TURN",WHITE_BLACK, SQUARE, two_1);	
+sign doNotEnter("DO_NOT_ENTER",RED_WHITE, SQUARE, two_3);	
+sign pedestrian("PEDESTRIAN",YELLOW_BLACK,DIAMOND, two_3);	
+sign noLeftTurn("NO_LEFT_TURN",WHITE_RED_BLACK, SQUARE, two_1);	
+sign speedLimit("SPEED_LIMIT",WHITE_BLACK, RECTANGLE_L, two_3);
+
+void initSigns(vector <sign *> &signList)
+{
+signList.push_back(&speedLimit);
+signList.push_back(&stop);
+signList.push_back(&noLeftTurn);
+signList.push_back(&pedestrian);
+signList.push_back(&doNotEnter);
+signList.push_back(&leftUTurn);
+signList.push_back(&oneWay);
+signList.push_back(&bikeLane);
+signList.push_back(&railCrossing);
+signList.push_back(&disabled);
+	
 }
 
