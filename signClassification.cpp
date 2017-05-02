@@ -1,111 +1,35 @@
 #include<iostream>
 #include<stdio.h>
 #include<string>
+#include<string.h>
 #include <vector>
 #include<stdint.h>
 #include<stdlib.h>
+#include "signDefinition.h"
+#include <ctype.h>
 using namespace std;
 
-enum color{
-	BLUE_WHITE,//0
-	YELLOW_BLACK,//1
-	WHITE_BLACK,//2
-	BLACK_WHITE,//3
-	RED_WHITE,//4
-	WHITE_RED_BLACK,//4
-	GREEN_WHITE//5
-};
-enum shape{
-	SQUARE,
-	CIRCLE,
-	RECTANGLE_W,
-	RECTANGLE_L,
-	HEXAGON,
-	DIAMOND
-};
-
-string colorNames[]={"BLUE_WHITE",//0
-						"YELLOW_BLACK",//1
-						"WHITE_BLACK",//2
-						"BLACK_WHITE",//3
-						"RED_WHITE",//4
-						"WHITE_RED_BLACK",
-						"GREEN_WHITE"//5
-						};
-						
-string signShape[] ={"SQUARE",
-					"CIRCLE",
-					"RECTANGLE_W",
-					"RECTANGLE_L",
-					"HEXAGON",
-					"DIAMOND"};
-					
-class sign{
-	public:
 	
-		string name;
-		color col;
-		shape sh;
-		
-		//float sizeFactor;//
-		uint8_t location; //Top=1, Middle=2, Bottom=3, Left=1, Middle=2, Right=3, use two hex digits
-		sign(string n, color c, shape s, uint8_t l){
-			this->name= n;
-			this->col=c;
-			this->sh = s;
-			this->location=l;
-		}
-		sign(){
-			//empty constructor
-		}
-	friend ostream & operator << (ostream &out, sign &s);
-};
-
-ostream & operator << (ostream &out, sign &s){
-	
-	out<<"NAME: "<<s.name<<" COLOR: "<<colorNames[s.col]<<" SHAPE: "<<signShape[s.sh]<<" LOCATION: "<<hex<<int(s.location)<<endl;
-	return out;
-}
 int main(){
-	string name,color, shape, location;
+	string name,color, shape, location;	
 	vector <sign *> signList;
-	vector <sign> filteredList;
-	
-	sign stop("STOP",RED_WHITE, HEXAGON, 23);	
-	signList.push_back(&stop);
-	
-	sign disabled("DISABLED_PARKING",BLUE_WHITE, SQUARE,22);
-	signList.push_back(&disabled);
-	
-	sign railCrossing("RAIL_CROSSING",YELLOW_BLACK, CIRCLE, 23);
-	signList.push_back(&railCrossing);
-	
-	sign bikeLane("BIKE_LANE",WHITE_BLACK, RECTANGLE_W, 23);
-	signList.push_back(&bikeLane);
-	
-	sign oneWay("ONE_WAY", BLACK_WHITE, RECTANGLE_W, 23);
-	signList.push_back(&oneWay);
-	
-	sign leftUTurn("LEFT_U_TURN",WHITE_BLACK, SQUARE, 21);
-	signList.push_back(&leftUTurn);
-	
-	sign doNotEnter("DO_NOT_ENTER",RED_WHITE, SQUARE, 23);
-	signList.push_back(&doNotEnter);
-	
-	sign pedestrian("PEDESTRIAN",YELLOW_BLACK,DIAMOND, 23);
-	signList.push_back(&pedestrian);
-	
-	sign noLeftTurn("NO_LEFT_TURN",WHITE_RED_BLACK, SQUARE, 21);
-	signList.push_back(&noLeftTurn);
-	
-	sign speedLimit("SPEED_LIMIT",WHITE_BLACK, RECTANGLE_L, 23);
-	signList.push_back(&speedLimit);
+	vector <sign> filteredList;	
+	initSigns(signList);
+
 	while(1)
 	{
 	
 	    cout<<"Enter the shape of the sign OR enter q to exit"<<endl;
 	    cout<< "Possible values:SQUARE CIRCLE RECTANGLE_W RECTANGLE_L HEXAGON DIAMOND"<<endl;
 	    cin>>shape;
+	     string s;
+	    int l=0;
+	    while (shape[l])
+            {
+                s+=toupper(shape[l]);                
+                l++;
+            }
+            
 	    if(shape=="q")
 	    {
 	        break;
@@ -116,17 +40,24 @@ int main(){
 	    {
 		    sign t;
 		    t=**i;
-		    if(shape.compare(signShape[t.sh])==0)
-		    {
-		        
+		    if(s.compare(signShape[t.sh])==0)
+		    {		        
 		       filteredList.push_back(t);
-		       cout<<colorNames[t.col]<<endl;
-		      // cout<<"PUSH BACK"<<filteredList.back()<<endl;
+		       cout<<colorNames[t.col]<<endl;     
 			
 		    }
 	    }
 	    
 	    cin>>color;
+	    string c;
+	     l=0;
+	    while (color[l])
+            {
+                c+=toupper(color[l]);                
+                l++;
+            }
+            
+	   // color=toupper(color.c_str());
 	    cout<<"Enter the location of the sign "<<endl;
 	    cout<<"Possible values:"<<endl;
 	    for(vector<sign >::iterator j= filteredList.begin(); j!= filteredList.end(); j++ )
@@ -134,29 +65,32 @@ int main(){
 	    
 		    sign q;
 		    q=*j;
-		    //cout<<"list"<<*j<<endl;
-		    //cout<<"compare"<<color<<" "<<colorNames[q.col]<<endl;
-		    if(!color.compare(colorNames[q.col])==0)
+
+		    if(!c.compare(colorNames[q.col])==0)
 		    {	 
 		       filteredList.erase(j);		       
 		       j--;			      	
 		    }
 		    else{
-		         cout<<(int)q.location<<endl;	
+		         cout<<signposition[q.location]<<endl;	
 		    }
 	    }
 	 
 	    bool flag=false;
 	    cin>>location;
+	    string lo;
+	     l=0;
+	    while (location[l])
+            {
+                lo+=tolower(location[l]);                
+                l++;
+            }
 	    for(vector<sign >::iterator k= filteredList.begin(); k!= filteredList.end(); k++ )
-	    {
-	        
+	    {	        
 	        sign q;
 		    q=*k;
-		    //cout<<"COMPARE"<<atoi(location.c_str())<<" "<<q.location<<endl;
-            if(atoi(location.c_str())==q.location)
-            {
-            
+            if(lo.compare(signposition[q.location])==0)
+            {            
                 flag=true;
                 cout<<q<<endl;
                 break;
@@ -167,20 +101,8 @@ int main(){
 	    {
 	        cout<<"Sign not found"<<endl;
 	    }
-	    //sign streetName();
 	    
     }
 	return 0;
 }
-/*
- if(color.compare(colorNames[t.col])==0)
-		        {
-		            //cout<<"Color match"<<endl;
-		            if(atoi(location.c_str())==t.location)
-		            {
-		            flag=true;
-		            cout<<t.name<<endl;
-			        break;
-			        }
-		        }
-		       */
+
