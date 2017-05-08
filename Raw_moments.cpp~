@@ -18,12 +18,12 @@ int main(int argc, char **argv)
 Mat source, gray;
 double hu[7];
  Moments stop_cmoments;
-int counter=1;
+int sukriti=1;
 
 
 while(1){
 
-string file_name=argv[counter];
+string file_name=argv[sukriti];
 if(file_name=="z"){
 	break;
 }
@@ -32,7 +32,7 @@ cvtColor( source, gray, CV_BGR2GRAY );
 stop_cmoments=moments(gray, false );
 HuMoments(stop_cmoments,hu );
 
-if(counter==1){
+if(sukriti==1){
 myfile.open ("Moments.csv");
 myfile<<"image,s00,s10,s01,s20,s11,s02,s30,s21,s12,s03,c20,c11,c02,c30,c21,c12,c03,n20,n11,n02,n30,n21,n12,n03,hu0,hu1,hu2,hu3,hu4,hu5,hu6"<<endl;
 }
@@ -72,8 +72,8 @@ myfile<<hu[i]<<',';
 }
 myfile<<endl;
 myfile.close();
-//cout<<"counter "<<counter<<endl;
-counter++;
+//cout<<"sukriti "<<sukriti<<endl;
+sukriti++;
 }
 cout<<"SUCCESS!"<<endl;
 return 0;

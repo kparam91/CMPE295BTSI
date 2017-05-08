@@ -16,13 +16,13 @@ int main(int argc, char **argv)
 Mat source, gray;
 double hu[7];
 Moments stop_cmoments;
-int counter=1;
+int sukriti=1;
 Mat arr[5];
 int o;
 
 while(1){
 
-string file_name=argv[counter];
+string file_name=argv[sukriti];
 cout<<file_name<<endl;
 
 if(file_name=="z"){
@@ -74,10 +74,10 @@ cout<<endl;
 //Conversion to matrix
 //Mat fVector(featureVector);
 //cout<<fVector<<endl;
-arr[counter-1]=Mat(featureVector, true);//fVector;
+arr[sukriti-1]=Mat(featureVector, true);//fVector;
 
 featureVector.clear();
-counter++;
+sukriti++;
 }
 
 //calculate covariance
